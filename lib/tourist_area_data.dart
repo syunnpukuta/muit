@@ -10,8 +10,7 @@ class TouristAreaData{
  late List<String> canDo;
  late List<String> image;
 
- TouristAreaData(String para){
-   Map<String, dynamic> data = jsonDecode(para);
+ TouristAreaData(Map data){
    rural = data["rural"];
    city = data["city"];
    explanation = data["explanation"];
