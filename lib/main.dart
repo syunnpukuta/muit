@@ -1,10 +1,5 @@
-import 'dart:convert';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/result_page.dart';
-import 'package:flutter_app/tourist_area_data.dart';
-import 'package:flutter_app/tourist_area_widget.dart';
 import 'package:window_location_href/window_location_href.dart';
 
 void main() {

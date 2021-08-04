@@ -5,7 +5,7 @@ import 'package:like_button/like_button.dart';
 
 class TouristAreaWidget extends StatefulWidget{
 
-  TouristAreaData data;
+  final TouristAreaData data;
 
   TouristAreaWidget(this.data);
 

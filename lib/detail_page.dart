@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/tourist_area_data.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class DetailPage extends StatefulWidget{
 
@@ -43,8 +41,6 @@ class _DetailState extends State<DetailPage> {
   }
 
   Widget body(){
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.year, now.month, now.day);
     return ListView(
       physics: BouncingScrollPhysics(),
       children: [
@@ -99,8 +95,7 @@ class _DetailState extends State<DetailPage> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if(icon!=null)Icon(icon, color: Colors.black26, size: 20,),
-        if(icon==null)Container(width: 20,),
+        Icon(icon, color: Colors.black26, size: 20,),
         Container(width: 10,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
