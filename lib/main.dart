@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/result_page.dart';
 import 'package:window_location_href/window_location_href.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "\"image\":[\"https://picsum.photos/250?image=9\"],"
       "\"explanation\": \"寺も回れるキレイな町並みです。\""
       "}]";
-
+  String _url = "https://www.yahoo.co.jp/";
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
         children: [
           TextButton(
+              onPressed: _launchURL,
+              child: Text("新規作成")
+          ),
+          TextButton(
             onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (c)=>ResultPage(para))
@@ -78,6 +83,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-
   }
+
+  void _launchURL() async =>
+      await launch(_url) ;
 }
+
+
