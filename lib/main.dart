@@ -50,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "\"explanation\": \"寺も回れるキレイな町並みです。\""
       "}]";
   String _url = "https://www.yahoo.co.jp/";
+  bool isMode = true;
 
   @override
   Widget build(BuildContext context) {
@@ -67,26 +68,69 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         backgroundColor: Color(0xff30d9a8),
       ),
-      body: ListView(
-        children: [
-          TextButton(
-              onPressed: _launchURL,
-              child: Text("新規作成")
-          ),
-          TextButton(
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (c)=>ResultPage(para))
-            ),
+      body: isMode ? createMode() : resultMode(),
+
+    );
+  }
+
+  Widget createMode(){
+    return ListView(
+      children: [
+        TextButton(
+          // onPressed: () => Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (c)=>ResultPage(para))
+          // ),
+            onPressed: (){
+
+              setState(() {
+                isMode = !isMode;
+              });
+            },
             child: Text("結果ページへ")
-          )
-        ],
-      ),
+        )
+      ],
+    );
+  }
+
+  Widget resultMode(){
+    return ListView(
+      children: [
+        TextButton(
+            onPressed: _launchURL,
+            child: Text("結果表示")
+        ),
+        TextButton(
+            // onPressed: () => Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (c)=>ResultPage(para))
+            // ),
+          onPressed: (){
+
+            setState(() {
+              isMode = !isMode;
+            });
+          },
+            child: Text("新規作成ページへ")
+        )
+      ],
     );
   }
 
   void _launchURL() async =>
       await launch(_url) ;
+
+  // Future<Null> _selectDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: _date,
+  //       firstDate: new DateTime(2016),
+  //       lastDate: new DateTime.now().add(new Duration(days: 360))
+  //   );
+  //   if(picked != null) setState(() => _date = picked);
+  // }
+
+
 }
 
 
