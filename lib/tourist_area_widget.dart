@@ -44,7 +44,7 @@ class _TouristAreaWidgetState extends State<TouristAreaWidget>{
               Container(height: 10,),
               Row(
                 children: [
-                  Text("${widget.data.rural} / ${widget.data.genre.toString().replaceAll("[", "").replaceAll("]", "")}"),
+                  Text("${widget.data.rural} / ${widget.data.genre.toString().replaceAll(RegExp(r"[\[\]]"), "")}"),
                   Expanded(child: Container()),
                 ],
               ),

@@ -35,6 +35,7 @@ dependencies:
 
   window_location_href: ^1.0.0
   like_button: ^2.0.2
+  flutter_svg: ^0.22.0
 
 dev_dependencies:
   flutter_test:
