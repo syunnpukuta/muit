@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/result_page.dart';
 import 'package:window_location_href/window_location_href.dart';
@@ -51,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "}]";
   String _url = "https://www.yahoo.co.jp/";
   bool isMode = true;
+  TextEditingController resController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -94,26 +97,46 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget resultMode(){
-    return ListView(
-      children: [
-        TextButton(
-            onPressed: _launchURL,
-            child: Text("結果表示")
-        ),
-        TextButton(
-            // onPressed: () => Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (c)=>ResultPage(para))
-            // ),
-          onPressed: (){
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ListView(
+        children: [
 
-            setState(() {
-              isMode = !isMode;
-            });
-          },
-            child: Text("新規作成ページへ")
-        )
-      ],
+          TextFormField(
+            cursorColor: Color(0xff40e9b8),
+            controller: resController,
+
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              focusColor: Color(0xff40e9b8),
+              hintText: "ID",
+              contentPadding: const EdgeInsets.all(8.0),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+          ),
+
+          Container(height: 16,),
+
+          filledButton(
+            "結果表示",
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (c)=>ResultPage(para)));
+            },
+          ),
+          TextButton(
+            onPressed: (){
+              setState(() {
+                isMode = !isMode;
+              });
+            },
+              child: Text("新規作成ページへ")
+          )
+        ],
+      ),
     );
   }
 
@@ -130,6 +153,24 @@ class _MyHomePageState extends State<MyHomePage> {
   //   if(picked != null) setState(() => _date = picked);
   // }
 
+
+  Widget filledButton(String text, {double height = 48, Function()? onTap,
+    double textScaleFactor = 0.9}){
+    return Container(
+      height: height,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xff30d9a8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        child: Text(text, style: TextStyle(color: Colors.white),
+          textScaleFactor: textScaleFactor,),
+        onPressed: onTap,
+      ),
+    );
+  }
 
 }
 
