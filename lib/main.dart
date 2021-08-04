@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/result_page.dart';
 import 'package:window_location_href/window_location_href.dart';
@@ -53,7 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
       "}]";
   String _url = "https://www.yahoo.co.jp/";
   bool isMode = true;
+  DateTime _date = new DateTime.now(); //締め切り日
+  TimeOfDay _time = new TimeOfDay.now(); //締め切り時間
   TextEditingController resController = TextEditingController();
+  String deadLine = "";
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +81,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return ListView(
       children: [
         TextButton(
-          // onPressed: () => Navigator.push(
-          //     context,
-          //     MaterialPageRoute(builder: (c)=>ResultPage(para))
-          // ),
+            onPressed: ()async{
+              DateTime? deadDate = await _selectDate(context);
+              if(deadDate == null) return;
+              TimeOfDay? deadTime = await _selectTime(context);
+              if(deadTime == null) return;
+              debugPrint(deadLine = "${deadDate.year}/${deadDate.month}/${deadDate.day} ${deadTime.hour}:${deadTime.minute}");
+            },
+            child: Text("締め切り日")
+        ),
+        TextButton(
             onPressed: (){
 
               setState(() {
@@ -143,16 +150,28 @@ class _MyHomePageState extends State<MyHomePage> {
   void _launchURL() async =>
       await launch(_url) ;
 
-  // Future<Null> _selectDate(BuildContext context) async {
-  //   final DateTime? picked = await showDatePicker(
-  //       context: context,
-  //       initialDate: _date,
-  //       firstDate: new DateTime(2016),
-  //       lastDate: new DateTime.now().add(new Duration(days: 360))
-  //   );
-  //   if(picked != null) setState(() => _date = picked);
-  // }
 
+  //締め切り日の選択
+  Future<DateTime?> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        firstDate: new DateTime(2021),
+        lastDate: new DateTime.now().add(new Duration(days: 360))
+    );
+    if(picked != null) setState(() => _date = picked);
+    return picked;
+  }
+
+  //締め切り時間の選択
+  Future<TimeOfDay?> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if(picked != null) setState(() => _time = picked);
+    return picked;
+  }
 
   Widget filledButton(String text, {double height = 48, Function()? onTap,
     double textScaleFactor = 0.9}){
