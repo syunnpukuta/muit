@@ -78,28 +78,45 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget createMode(){
-    return ListView(
-      children: [
-        TextButton(
-            onPressed: ()async{
-              DateTime? deadDate = await _selectDate(context);
-              if(deadDate == null) return;
-              TimeOfDay? deadTime = await _selectTime(context);
-              if(deadTime == null) return;
-              debugPrint(deadLine = "${deadDate.year}/${deadDate.month}/${deadDate.day} ${deadTime.hour}:${deadTime.minute}");
-            },
-            child: Text("締め切り日")
-        ),
-        TextButton(
-            onPressed: (){
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ListView(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                  onPressed: ()async{
+                    DateTime? deadDate = await _selectDate(context);
+                    if(deadDate == null) return;
+                    TimeOfDay? deadTime = await _selectTime(context);
+                    if(deadTime == null) return;
+                    debugPrint(deadLine = "${deadDate.year}/${deadDate.month}/${deadDate.day} ${deadTime.hour}:${deadTime.minute}");
+                    setState(() {
 
-              setState(() {
-                isMode = !isMode;
-              });
-            },
-            child: Text("結果ページへ")
-        )
-      ],
+                    });
+                  },
+                  child: Text("締め切り日")
+              ),
+              Container(width: 16,),
+              Text(deadLine=="" ? "未設定" : deadLine),
+            ],
+          ),
+          Container(height: 16,),
+          filledButton("新規作成", onTap: (){
+            _launchURL();
+          }),
+          TextButton(
+              onPressed: (){
+
+                setState(() {
+                  isMode = !isMode;
+                });
+              },
+              child: Text("結果ページへ")
+          )
+        ],
+      ),
     );
   }
 
