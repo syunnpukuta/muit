@@ -7,15 +7,17 @@ class TouristAreaData{
  late List<String> dish;
  late List<String> canDo;
  late List<String> image;
+ late double score;
 
  TouristAreaData(Map data){
    rural = data["rural"];
    city = data["city"];
    explanation = data["explanation"];
-   genre = (data["genre"] as List).cast<String>();
-   dish = (data["dish"] as List).cast<String>();
-   canDo = (data["canDo"] as List).cast<String>();
-   image = (data["image"] as List).cast<String>();
+   score = data["score"];
+   genre = data["genre"].toString().split(",");
+   dish = data["dish"].toString().split(",");
+   canDo = data["canDO"].toString().split(",");
+   image = data["image"].toString().split(",");
  }
 
 }

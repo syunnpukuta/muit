@@ -97,13 +97,15 @@ class _DetailState extends State<DetailPage> {
       children: [
         Icon(icon, color: Colors.black26, size: 20,),
         Container(width: 10,),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(text, style: TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.bold),),
-            child,
-            Container(height: 16,),
-          ],
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(text, style: TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.bold),),
+              child,
+              Container(height: 16,),
+            ],
+          ),
         ),
       ],
     );

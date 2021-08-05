@@ -42,11 +42,14 @@ class _TouristAreaWidgetState extends State<TouristAreaWidget>{
               top(),
               Align(child: photoList(), alignment: Alignment.center,),
               Container(height: 10,),
-              Row(
-                children: [
-                  Text("${widget.data.rural} / ${widget.data.genre.toString().replaceAll(RegExp(r"[\[\]]"), "")}"),
-                  Expanded(child: Container()),
-                ],
+              Container(
+                height: 20,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Text("${widget.data.score.toStringAsFixed(1)}点 / ${widget.data.rural}"),
+                  ],
+                ),
               ),
             ],
           ),
