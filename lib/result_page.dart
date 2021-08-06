@@ -8,6 +8,7 @@ import 'package:flutter_app/tourist_area_data.dart';
 import 'package:flutter_app/tourist_area_widget.dart';
 import 'package:http/http.dart' as http;
 
+//結果ページ
 class ResultPage extends StatefulWidget{
 
   String data;
@@ -50,20 +51,29 @@ class _ResultPageState extends State<ResultPage>{
         backgroundColor: Color(0xff30d9a8),
       ),
       body: Center(
+
+        //Streamにデータが流れるたびに再描画
         child: StreamBuilder<String>(
           stream: _controller.stream,
           builder: (context, snapshot) {
-            if(snapshot.connectionState != ConnectionState.waiting && snapshot.data == "timeout"){
+
+            //エラーがでたら、その旨を表示
+            if(snapshot.connectionState != ConnectionState.waiting && snapshot.data == "error"){
               return Center(child: Text("取得に失敗しました\nIDを確認してください"));
             }
+
+            //まだデータが１つもないときはグルグルを出す
             if(list.length == 0){
               return Center(child: CircularProgressIndicator(),);
             }
+
+            //観光地のWidgetを並べる
             return ListView(
               children: list
                   .map((e) => TouristAreaWidget(e))
                   .map((e) => GestureDetector(
                       child: e,
+                      //タップしたら詳細ページへ遷移
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (c)=>DetailPage(e.data)));
                       },
@@ -77,25 +87,28 @@ class _ResultPageState extends State<ResultPage>{
     );
   }
 
+  //GASから１位から１０位を取得
   Future getRes() async {
     await Future.forEach(List.generate(10, (index) => index), (element) async {
-
-      http.get(Uri.parse("https://script.google.com/macros/s/AKfycbxOorM_dr1VF2yrf_P5mkQzyeP6l5zftr-E4HqfudbStFx9XwC63zQeU8QPqgcrZsjqUw/exec"
+      //１～１０位をまとめて取得
+      http.get(Uri.parse("https://script.google.com/macros/s/AKfycbx2w9JCaAOnSiYQRiOWhQKz4XKaSo_S7oghyhPKlgl_4B1Ns4l9jzROjdp9AIpgnR6h1Q/exec"
           "?id=${widget.data}&i=$element"),)
       .then((value){
+        // 取得し次第スコアでソートし、Streamにデータを流す
         print(value.body);
         list.add(TouristAreaData(json.decode(value.body)));
         list.sort((a, b)=>(b.score - a.score).ceil());
         _controller.add("");
       })
-         .catchError((e) {
+      .catchError((e) {
         print(e.toString());
-        _controller.add("timeout");
-      }).timeout(
+        _controller.add("error");
+      })
+      .timeout(
         Duration(seconds: 20),
         onTimeout: (){
           print("timeout");
-          _controller.add("timeout");
+          _controller.add("error");
         }
       );
 

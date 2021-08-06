@@ -32,14 +32,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
- bool isMode = true;
+  bool _isMode = true;
   DateTime _date = new DateTime.now(); //締め切り日
   TimeOfDay _time = new TimeOfDay.now(); //締め切り時間
-  TextEditingController resController = TextEditingController();
-  TextEditingController controller = TextEditingController();
-  String deadLine = "";
-
-  String test = "";
+  TextEditingController _resController = TextEditingController();
+  String _deadLine = "";
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +53,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Stack(
         children: [
+          //背景画像
           Image.asset(
             "assets/home.jpg",
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             fit: BoxFit.none,
           ),
-          isMode ? createMode() : resultMode(),
+
+          //モードによって作成画面、結果の入力画面を切り替える
+          _isMode ? createMode() : resultMode(),
         ],
       ),
 
     );
   }
 
+  //新規作成の画面
   Widget createMode(){
     return Padding(
       padding: const EdgeInsets.fromLTRB(64, 16, 64, 16),
@@ -77,6 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(height: MediaQuery.of(context).size.height/5,),
           Center(child: Text("MUIT - D", style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),)),
           Container(height: MediaQuery.of(context).size.height/5,),
+
+          //締切日の設定
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -91,31 +94,35 @@ class _MyHomePageState extends State<MyHomePage> {
                       if(deadDate == null) return;
                       TimeOfDay? deadTime = await _selectTime(context);
                       if(deadTime == null) return;
-                      debugPrint(deadLine = "${deadDate.year}/${deadDate.month}/${deadDate.day} ${deadTime.hour}:${deadTime.minute.toString().padRight(2, "0")}");
+                      debugPrint(_deadLine = "${deadDate.year}/${deadDate.month}/${deadDate.day} ${deadTime.hour}:${deadTime.minute.toString().padRight(2, "0")}");
                       setState(() {});
                     },
                     child: Text("締め切り日")
                 ),
                 Container(width: 16,),
-                Text(deadLine=="" ? "未設定" : deadLine),
+                Text(_deadLine=="" ? "未設定" : _deadLine),
               ],
             ),
           ),
           Container(height: 16,),
+
+          //新規作成のボタン
           filledButton("新規作成", onTap: () async {
             showProgressDialog();
             http.Response res = await http.get(
-              Uri.parse("https://script.google.com/macros/s/AKfycbyuiiD9f4KZ2EtNMA9xg3vFMBSCFktSsqdtk7SIxtIuvqg4AQXhm2wU05yiEy9j6pei6Q/exec")
+              Uri.parse("https://script.google.com/macros/s/AKfycby_k0SfzaDy6dHOuBKTw-gouuMbSJItG3M-lJOPCM4MaXio-aCUCae4kMEw0E27l9EaGQ/exec")
             );
             print(res.body);
             Map<String, dynamic> data = jsonDecode(res.body);
             Navigator.pop(context);
             await launch(data["url"]);
           }),
-        TextButton(
+
+          //結果の画面への切り替え
+          TextButton(
             onPressed: (){
                 setState(() {
-                  isMode = !isMode;
+                  _isMode = !_isMode;
                 });
               },
               child: Text("結果ページへ", style: TextStyle(color: Colors.white),)
@@ -125,17 +132,25 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // 結果の画面
   Widget resultMode(){
     return Padding(
       padding: const EdgeInsets.fromLTRB(64.0, 16, 64, 16),
       child: ListView(
         children: [
           Container(height: MediaQuery.of(context).size.height/5,),
-          Center(child: Text("MUIT - D", style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),)),
+          Center(
+              child: Text(
+              "MUIT - D",
+              style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
+            )
+          ),
           Container(height: MediaQuery.of(context).size.height/5,),
+
+          //IDの入力フォーム
           TextFormField(
             cursorColor: Color(0xff40e9b8),
-            controller: resController,
+            controller: _resController,
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
@@ -152,16 +167,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Container(height: 16,),
 
+          //結果画面に遷移
           filledButton(
             "結果表示",
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (c)=>ResultPage("10310805")));
+              Navigator.push(context, MaterialPageRoute(builder: (c)=>ResultPage(_resController.text)));
             },
           ),
           TextButton(
             onPressed: (){
               setState(() {
-                isMode = !isMode;
+                _isMode = !_isMode;
               });
             },
             child: Text("新規作成ページへ", style: TextStyle(color: Colors.white),)
@@ -171,8 +187,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _launchURL() async => await launch(_url);
-
   //締め切り日の選択
   Future<DateTime?> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -180,7 +194,6 @@ class _MyHomePageState extends State<MyHomePage> {
         initialDate: _date,
         firstDate: new DateTime(2021),
         lastDate: new DateTime.now().add(new Duration(days: 360)),
-        // locale: Locale("ja"),
     );
     if(picked != null) setState(() => _date = picked);
     return picked;
@@ -196,6 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return picked;
   }
 
+  //色が塗られたボタン
   Widget filledButton(String text, {double height = 48, Function()? onTap,
     double textScaleFactor = 0.9}){
     return Container(
@@ -213,6 +227,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  //処理中のグルグルを画面全体に出す
   void showProgressDialog() {
     showGeneralDialog(
         context: context,

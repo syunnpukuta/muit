@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/tourist_area_data.dart';
 import 'package:like_button/like_button.dart';
 
+
+//観光地のWidget
 class TouristAreaWidget extends StatefulWidget{
 
   final TouristAreaData data;
@@ -15,7 +17,6 @@ class TouristAreaWidget extends StatefulWidget{
 }
 
 class _TouristAreaWidgetState extends State<TouristAreaWidget>{
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,7 @@ class _TouristAreaWidgetState extends State<TouristAreaWidget>{
     );
   }
 
+  //名前とお気に入りのボタン
   Widget top(){
     return Padding(
       padding: const EdgeInsets.only(bottom:8.0),
@@ -77,6 +79,7 @@ class _TouristAreaWidgetState extends State<TouristAreaWidget>{
     );
   }
 
+  //画像を横に並べる
   Widget photoList(){
     return Container(
       height: 160,

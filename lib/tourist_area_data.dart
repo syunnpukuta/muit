@@ -1,3 +1,4 @@
+//観光地のデータ
 class TouristAreaData{
 
  late String rural;

@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/tourist_area_data.dart';
 
+//観光地の詳細ページ
 class DetailPage extends StatefulWidget{
 
   final TouristAreaData data;
@@ -28,6 +29,7 @@ class _DetailState extends State<DetailPage> {
     );
   }
 
+  //上部のバー
   AppBar appbar(){
     return AppBar(
       backgroundColor: Colors.white,
@@ -89,6 +91,7 @@ class _DetailState extends State<DetailPage> {
     );
   }
 
+  //アイコンの横に文字がある
   Widget iconText(IconData icon, String text, {Widget? child}){
     child ??= Container();
 
