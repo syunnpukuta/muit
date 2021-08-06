@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/result_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -223,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //色が塗られたボタン
   Widget filledButton(String text, {double height = 48, Function()? onTap,
-    double textScaleFactor = 0.9}){
+    double textScaleFactor = 1.0}){
     return Container(
       height: height,
       child: ElevatedButton(

@@ -93,7 +93,8 @@ class _ResultPageState extends State<ResultPage>{
   Future getRes() async {
     await Future.forEach(List.generate(10, (index) => index), (element) async {
       //１～１０位をまとめて取得
-      http.get(Uri.parse("https://script.google.com/macros/s/AKfycbx2w9JCaAOnSiYQRiOWhQKz4XKaSo_S7oghyhPKlgl_4B1Ns4l9jzROjdp9AIpgnR6h1Q/exec"
+      http.get(Uri.parse("https://script.google.com/macros/s/AKfycbxXwM05RBhDM5"
+          "r6V7fuXDnms-TR1oflS_WTnGi1LwtlKSIOGq6sI88hOfFgumcsmhlSyA/exec"
           "?id=${widget.data}&i=$element"),)
       .then((value){
         // 取得し次第スコアでソートし、Streamにデータを流す
