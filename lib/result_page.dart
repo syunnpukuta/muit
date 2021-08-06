@@ -8,6 +8,8 @@ import 'package:flutter_app/tourist_area_data.dart';
 import 'package:flutter_app/tourist_area_widget.dart';
 import 'package:http/http.dart' as http;
 
+import 'main.dart';
+
 //結果ページ
 class ResultPage extends StatefulWidget{
 
@@ -48,7 +50,7 @@ class _ResultPageState extends State<ResultPage>{
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xff30d9a8),
+        backgroundColor: MyHomePage.mainColor,
       ),
       body: Center(
 

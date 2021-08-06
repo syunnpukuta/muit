@@ -26,6 +26,9 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
+  //アプリのテーマカラー
+  static const Color mainColor = Color(0xff30d9a8);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -40,32 +43,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("ホーム",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16
+    return GestureDetector(
+      onTap: ()=>FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("ホーム",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16
+            ),
           ),
+          centerTitle: true,
+          backgroundColor: MyHomePage.mainColor,
         ),
-        centerTitle: true,
-        backgroundColor: Color(0xff30d9a8),
-      ),
-      body: Stack(
-        children: [
-          //背景画像
-          Image.asset(
-            "assets/home.jpg",
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.none,
-          ),
+        body: Stack(
+          children: [
+            //背景画像
+            Image.asset(
+              "assets/home.jpg",
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              fit: BoxFit.none,
+            ),
 
-          //モードによって作成画面、結果の入力画面を切り替える
-          _isMode ? createMode() : resultMode(),
-        ],
-      ),
+            //モードによって作成画面、結果の入力画面を切り替える
+            _isMode ? createMode() : resultMode(),
+          ],
+        ),
 
+      ),
     );
   }
 
@@ -108,7 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
           filledButton("新規作成", onTap: () async {
             showProgressDialog();
             http.Response res = await http.get(
-              Uri.parse("https://script.google.com/macros/s/AKfycby_k0SfzaDy6dHOuBKTw-gouuMbSJItG3M-lJOPCM4MaXio-aCUCae4kMEw0E27l9EaGQ/exec")
+              Uri.parse("https://script.google.com/macros/s/AKfycbyQPT2V7BmSSah"
+                  "_sHTqQ9NNPGJOpVty3UugyLd6qUIX85KDcGNnQJX_o9jzUeXamPf9rA/exec")
             );
             print(res.body);
             Map<String, dynamic> data = jsonDecode(res.body);
@@ -162,12 +169,14 @@ class _MyHomePageState extends State<MyHomePage> {
           filledButton(
             "結果表示",
             onTap: (){
+              FocusScope.of(context).unfocus();
               Navigator.push(context, MaterialPageRoute(builder: (c)=>ResultPage(_resController.text)));
             },
           ),
           TextButton(
             onPressed: (){
               setState(() {
+                FocusScope.of(context).unfocus();
                 _isMode = !_isMode;
               });
             },
@@ -219,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
       height: height,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Color(0xff30d9a8),
+          primary: MyHomePage.mainColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
