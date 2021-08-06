@@ -75,9 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: const EdgeInsets.fromLTRB(64, 16, 64, 16),
       child: ListView(
         children: [
-          Container(height: MediaQuery.of(context).size.height/5,),
-          Center(child: Text("MUIT - D", style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),)),
-          Container(height: MediaQuery.of(context).size.height/5,),
+          title(),
 
           //締切日の設定
           Container(
@@ -138,14 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: const EdgeInsets.fromLTRB(64.0, 16, 64, 16),
       child: ListView(
         children: [
-          Container(height: MediaQuery.of(context).size.height/5,),
-          Center(
-              child: Text(
-              "MUIT - D",
-              style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
-            )
-          ),
-          Container(height: MediaQuery.of(context).size.height/5,),
+          title(),
 
           //IDの入力フォーム
           TextFormField(
@@ -184,6 +175,18 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
+    );
+  }
+
+  //アプリのタイトル
+  Widget title(){
+    return Column(
+      children: [
+        Container(height: MediaQuery.of(context).size.height/5,),
+        Center(child: Text("Travel Planner", style: TextStyle(color: Colors.white, fontSize: 43, fontWeight: FontWeight.bold),)),
+        Center(child: Text("みんなで決めよう！", style: TextStyle(color: Colors.white, fontSize: 16,),)),
+        Container(height: MediaQuery.of(context).size.height/5,),
+      ],
     );
   }
 
