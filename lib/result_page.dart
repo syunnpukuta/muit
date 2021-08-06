@@ -60,7 +60,9 @@ class _ResultPageState extends State<ResultPage>{
           builder: (context, snapshot) {
 
             //エラーがでたら、その旨を表示
-            if(snapshot.connectionState != ConnectionState.waiting && snapshot.data == "error"){
+            if(snapshot.connectionState != ConnectionState.waiting &&
+              snapshot.data == "error" &&
+              list.length != 10){
               return Center(child: Text("取得に失敗しました\nIDを確認してください"));
             }
 
@@ -104,11 +106,11 @@ class _ResultPageState extends State<ResultPage>{
         _controller.add("");
       })
       .catchError((e) {
-        print(e.toString());
+        print("error ${e.toString()}");
         _controller.add("error");
       })
       .timeout(
-        Duration(seconds: 20),
+        Duration(seconds: 30),
         onTimeout: (){
           print("timeout");
           _controller.add("error");

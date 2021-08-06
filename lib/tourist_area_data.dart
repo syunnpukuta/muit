@@ -14,7 +14,7 @@ class TouristAreaData{
    rural = data["rural"];
    city = data["city"];
    explanation = data["explanation"];
-   score = data["score"];
+   score = data["score"] is int ? (data["score"] as int).ceilToDouble() : data["score"];
    genre = data["genre"].toString().split(",");
    dish = data["dish"].toString().split(",");
    canDo = data["canDO"].toString().split(",");
