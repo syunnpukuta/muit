@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/result_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -64,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
               "assets/home.jpg",
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              fit: BoxFit.none,
+              fit: BoxFit.fitHeight,
             ),
 
             //モードによって作成画面、結果の入力画面を切り替える
@@ -193,7 +192,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: [
         Container(height: MediaQuery.of(context).size.height/5,),
-        Center(child: Text("Travel Planner", style: TextStyle(color: Colors.white, fontSize: 43, fontWeight: FontWeight.bold),)),
+        Center(
+          child: FittedBox(
+            child: Text("Travel Planner",
+            style: TextStyle(color: Colors.white, fontSize: 43, fontWeight: FontWeight.bold),
+            maxLines: 1,),
+          ),
+        ),
         Center(child: Text("みんなで決めよう！", style: TextStyle(color: Colors.white, fontSize: 16,),)),
         Container(height: MediaQuery.of(context).size.height/5,),
       ],
